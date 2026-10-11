@@ -10,22 +10,36 @@ import {
   Radio, 
   Fingerprint, 
   Activity,
-  CheckCircle2
+  CheckCircle2,
+  Download,
+  Lock,
+  LogOut,
+  Compass,
+  Sliders,
+  UserCheck
 } from 'lucide-react';
-import { ModuleTab } from '../types/vega';
+import { ModuleTab, OperatorSession, UserMode } from '../types/vega';
 
 interface HeaderProps {
   activeTab: ModuleTab;
   setActiveTab: (tab: ModuleTab) => void;
   systemStatus: string;
   isAiActive: boolean;
+  operatorSession: OperatorSession | null;
+  onLogout: () => void;
+  userMode: UserMode;
+  setUserMode: (mode: UserMode) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
   activeTab, 
   setActiveTab, 
   systemStatus, 
-  isAiActive 
+  isAiActive,
+  operatorSession,
+  onLogout,
+  userMode,
+  setUserMode
 }) => {
   const navItems: { id: ModuleTab; label: string; icon: React.ReactNode; badge?: string }[] = [
     { id: 'vulnerability_radar', label: 'Radar CVE & Scanner', icon: <Search className="w-4 h-4" /> },
@@ -34,6 +48,7 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'forensic_suite', label: 'Unidad Forense DFIR', icon: <Fingerprint className="w-4 h-4" />, badge: 'EVIDENCIAS' },
     { id: 'mitre_matrix', label: 'Matriz MITRE ATT&CK', icon: <Layers className="w-4 h-4" /> },
     { id: 'audit_reports', label: 'Reporte Auditoría', icon: <FileText className="w-4 h-4" /> },
+    { id: 'deploy_export', label: 'Descargar & Publicar', icon: <Download className="w-4 h-4" />, badge: 'ZIP & URL' },
   ];
 
   return (
@@ -60,18 +75,59 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         <div className="flex items-center gap-3">
+          {/* User Mode Toggle: Guiado vs Experto */}
+          <div className="flex items-center gap-1 bg-[#060a12] p-0.5 rounded border border-slate-800">
+            <button
+              onClick={() => setUserMode('guided')}
+              className={`flex items-center gap-1 px-2 py-0.5 rounded text-[10px] transition-all cursor-pointer ${
+                userMode === 'guided'
+                  ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_8px_rgba(6,182,212,0.3)]'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Compass className="w-3 h-3" />
+              <span>Modo Guiado</span>
+            </button>
+            <button
+              onClick={() => setUserMode('expert')}
+              className={`flex items-center gap-1 px-2 py-0.5 rounded text-[10px] transition-all cursor-pointer ${
+                userMode === 'expert'
+                  ? 'bg-emerald-500 text-slate-950 font-bold shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Terminal className="w-3 h-3" />
+              <span>Modo Experto</span>
+            </button>
+          </div>
+
+          <span className="text-slate-600">|</span>
+
+          {/* Operator ID Badge */}
+          {operatorSession && (
+            <div className="hidden lg:flex items-center gap-1 text-[11px] text-slate-300 bg-slate-900/80 px-2 py-0.5 rounded border border-slate-800">
+              <UserCheck className="w-3 h-3 text-emerald-400" />
+              <span className="text-emerald-400 font-mono font-semibold">{operatorSession.operatorId}</span>
+              <span className="text-[10px] text-slate-500 font-mono">({operatorSession.role.split('_')[0]})</span>
+            </div>
+          )}
+
           <div className="flex items-center gap-1 text-[11px]">
             <span className="text-slate-500">ENGINE:</span>
-            <span className="text-cyan-400 font-semibold">CompuApps secureDev Tech</span>
+            <span className="text-cyan-400 font-semibold">CompuApps secureDev</span>
           </div>
+          
           <span className="text-slate-600">|</span>
-          <div className="flex items-center gap-1 text-[11px]">
-            <span className="text-slate-500">IA MODEL:</span>
-            <span className={isAiActive ? "text-emerald-400 flex items-center gap-1" : "text-amber-400 flex items-center gap-1"}>
-              <span className={`w-1.5 h-1.5 rounded-full ${isAiActive ? 'bg-emerald-400 animate-ping' : 'bg-amber-400'}`}></span>
-              {isAiActive ? 'GEMINI 2.5 ACTIVE' : 'HEURISTIC OFFLINE'}
-            </span>
-          </div>
+
+          {/* Logout / Lock Button */}
+          <button
+            onClick={onLogout}
+            className="flex items-center gap-1 text-[10px] font-mono text-red-400 bg-red-950/50 hover:bg-red-900/60 border border-red-800/60 px-2 py-0.5 rounded transition-colors cursor-pointer"
+            title="Bloquear Terminal y Cerrar Sesión Privada"
+          >
+            <LogOut className="w-3 h-3" />
+            <span>Bloquear</span>
+          </button>
         </div>
       </div>
 
@@ -126,6 +182,16 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             );
           })}
+
+          <a
+            href="/api/download-project-zip"
+            download="VEGA_UNIDAD_EXPLOTACION_ANALISIS_FORENSE.zip"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold font-mono bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all ml-1 shadow-[0_0_12px_rgba(16,185,129,0.3)] shrink-0 cursor-pointer"
+            title="Descargar código fuente completo en archivo .ZIP"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Descargar .ZIP</span>
+          </a>
         </nav>
       </div>
     </header>

@@ -4,7 +4,17 @@ export type ModuleTab =
   | 'script_forge' 
   | 'forensic_suite' 
   | 'mitre_matrix' 
-  | 'audit_reports';
+  | 'audit_reports'
+  | 'deploy_export';
+
+export type UserMode = 'guided' | 'expert';
+
+export interface OperatorSession {
+  isAuthenticated: boolean;
+  operatorId: string;
+  role: 'AUDITOR_CHIEF' | 'SECURITY_ENGINEER' | 'FORENSIC_EXPERT';
+  loginTime: string;
+}
 
 export interface TargetProfile {
   id: string;

@@ -6,17 +6,36 @@ import { ScriptForge } from './components/ScriptForge';
 import { ForensicSuite } from './components/ForensicSuite';
 import { MitreMatrix } from './components/MitreMatrix';
 import { AuditReporter } from './components/AuditReporter';
-import { ModuleTab, TargetProfile, CveItem } from './types/vega';
+import { DeployExportCenter } from './components/DeployExportCenter';
+import { AccessControlGate } from './components/AccessControlGate';
+import { GuidedAssistant } from './components/GuidedAssistant';
+import { ModuleTab, TargetProfile, CveItem, OperatorSession, UserMode } from './types/vega';
 import { ShieldAlert, Terminal, Lock, Activity } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ModuleTab>('vulnerability_radar');
+  const [userMode, setUserMode] = useState<UserMode>('guided');
   const [systemStatus, setSystemStatus] = useState('ONLINE');
   const [isAiActive, setIsAiActive] = useState(false);
   const [stagedTarget, setStagedTarget] = useState<TargetProfile | null>(null);
   const [stagedCve, setStagedCve] = useState<CveItem | null>(null);
   const [forgeObjective, setForgeObjective] = useState<string>('');
   const [forgeToolType, setForgeToolType] = useState<string>('');
+
+  // Operator Authentication State
+  const [operatorSession, setOperatorSession] = useState<OperatorSession | null>(() => {
+    try {
+      const saved = localStorage.getItem('vega_operator_session');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const handleLogout = () => {
+    localStorage.removeItem('vega_operator_session');
+    setOperatorSession(null);
+  };
 
   useEffect(() => {
     // Check engine status
@@ -50,6 +69,11 @@ export const App: React.FC = () => {
     setActiveTab('script_forge');
   };
 
+  // Enforce Access Control Gate if not authenticated
+  if (!operatorSession || !operatorSession.isAuthenticated) {
+    return <AccessControlGate onAuthenticate={(session) => setOperatorSession(session)} />;
+  }
+
   return (
     <div className="min-h-screen bg-[#070b14] text-slate-100 flex flex-col font-sans cyber-grid">
       <Header 
@@ -57,9 +81,21 @@ export const App: React.FC = () => {
         setActiveTab={setActiveTab} 
         systemStatus={systemStatus}
         isAiActive={isAiActive}
+        operatorSession={operatorSession}
+        onLogout={handleLogout}
+        userMode={userMode}
+        setUserMode={setUserMode}
       />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
+        {/* Guided Assistant Walkthrough shown when userMode is 'guided' */}
+        {userMode === 'guided' && (
+          <GuidedAssistant 
+            onNavigateTab={(tab) => setActiveTab(tab)} 
+            activeTab={activeTab} 
+          />
+        )}
+
         {activeTab === 'vulnerability_radar' && (
           <VulnerabilityRadar onSendToAiPentest={handleSendToAiPentest} />
         )}
@@ -91,6 +127,10 @@ export const App: React.FC = () => {
 
         {activeTab === 'audit_reports' && (
           <AuditReporter />
+        )}
+
+        {activeTab === 'deploy_export' && (
+          <DeployExportCenter />
         )}
       </main>
 

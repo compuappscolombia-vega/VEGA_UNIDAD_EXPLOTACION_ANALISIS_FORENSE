@@ -1,6 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import fs from 'fs';
+import os from 'os';
+import dns from 'dns';
+import net from 'net';
+import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
@@ -11,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const PORT = 3000;
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
@@ -44,6 +49,116 @@ app.get('/api/status', (req, res) => {
     ],
     timestamp: new Date().toISOString()
   });
+});
+
+// Endpoint: Download Complete Project Zip
+app.get('/api/download-project-zip', (req, res) => {
+  try {
+    const zipPath = path.join(os.tmpdir(), 'VEGA_UNIDAD_EXPLOTACION_ANALISIS_FORENSE.zip');
+    const pyScript = `import zipfile, os
+base_dir = r"${__dirname}"
+zip_path = r"${zipPath}"
+exclude_dirs = {'node_modules', '.git', 'dist', '.cache', '__pycache__'}
+with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+    for root, dirs, files in os.walk(base_dir):
+        dirs[:] = [d for d in dirs if d not in exclude_dirs]
+        for file in files:
+            if file.endswith('.zip') or file.endswith('.tar.gz'): continue
+            file_path = os.path.join(root, file)
+            arcname = os.path.relpath(file_path, base_dir)
+            zipf.write(file_path, arcname)
+`;
+    fs.writeFileSync('/tmp/make_zip.py', pyScript);
+    execSync('python3 /tmp/make_zip.py');
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', 'attachment; filename="VEGA_UNIDAD_EXPLOTACION_ANALISIS_FORENSE.zip"');
+    const fileStream = fs.createReadStream(zipPath);
+    fileStream.pipe(res);
+  } catch (error: any) {
+    console.error('Error generating project zip:', error);
+    res.status(500).json({ error: 'Failed to generate project zip: ' + error.message });
+  }
+});
+
+// Endpoint: Real Network Inspection & Port Connectivity Check (100% Real Scan)
+app.post('/api/network/inspect', async (req, res) => {
+  const { host, ports } = req.body;
+  const targetHost = (host || '127.0.0.1').trim().replace(/^https?:\/\//, '').split('/')[0].split(':')[0];
+  const targetPorts: number[] = Array.isArray(ports) && ports.length > 0 
+    ? ports.map((p: any) => parseInt(p, 10)).filter((p: number) => !isNaN(p) && p > 0 && p < 65536)
+    : [80, 443, 22, 8080, 3000, 3306, 5432];
+
+  try {
+    let resolvedIp = targetHost;
+    try {
+      const lookup = await dns.promises.lookup(targetHost);
+      resolvedIp = lookup.address;
+    } catch {
+      // hostname might already be an IP or internal
+    }
+
+    const checkPort = (port: number): Promise<{ port: number; status: 'open' | 'filtered' | 'closed'; latencyMs: number }> => {
+      return new Promise((resolve) => {
+        const start = Date.now();
+        const socket = new net.Socket();
+        socket.setTimeout(1200);
+
+        socket.on('connect', () => {
+          const latency = Date.now() - start;
+          socket.destroy();
+          resolve({ port, status: 'open', latencyMs: latency });
+        });
+
+        socket.on('timeout', () => {
+          socket.destroy();
+          resolve({ port, status: 'filtered', latencyMs: 1200 });
+        });
+
+        socket.on('error', () => {
+          socket.destroy();
+          resolve({ port, status: 'closed', latencyMs: Date.now() - start });
+        });
+
+        socket.connect(port, targetHost);
+      });
+    };
+
+    const portResults = await Promise.all(targetPorts.slice(0, 10).map(p => checkPort(p)));
+
+    let httpProbe: any = null;
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
+      const urlToTest = `http://${targetHost}`;
+      const probeRes = await fetch(urlToTest, { signal: controller.signal, method: 'HEAD' });
+      clearTimeout(timeoutId);
+      httpProbe = {
+        statusCode: probeRes.status,
+        serverHeader: probeRes.headers.get('server') || 'Protegido / No divulgado',
+        contentType: probeRes.headers.get('content-type') || 'text/html',
+        poweredBy: probeRes.headers.get('x-powered-by') || 'Protegido / No divulgado',
+        securityHeaders: {
+          hasHsts: probeRes.headers.has('strict-transport-security'),
+          hasCsp: probeRes.headers.has('content-security-policy'),
+          hasXFrame: probeRes.headers.has('x-frame-options'),
+        }
+      };
+    } catch {
+      // not an HTTP service or unreachable
+    }
+
+    res.json({
+      success: true,
+      targetHost,
+      resolvedIp,
+      timestamp: new Date().toISOString(),
+      ports: portResults,
+      httpProbe,
+      isRealScan: true
+    });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // Endpoint: AI Target Analysis & Vulnerability Assessment
