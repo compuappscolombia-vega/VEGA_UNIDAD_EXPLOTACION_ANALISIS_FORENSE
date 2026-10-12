@@ -22,10 +22,10 @@ export const AuditReporter: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-[#0a1424] to-slate-900 border border-emerald-900/40 rounded-xl p-5 shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-slate-900 via-[#0a1424] to-slate-900 border border-blue-900/40 rounded-xl p-5 shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-emerald-400 text-xs font-mono font-semibold tracking-wide uppercase mb-1">
-            <FileText className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono font-semibold tracking-wide uppercase mb-1">
+            <FileText className="w-4 h-4 text-cyan-400" />
             <span>MÓDULO DE GENERACIÓN DE INFORMES DE AUDITORÍA Y PERITAJE</span>
           </div>
           <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">
@@ -38,7 +38,7 @@ export const AuditReporter: React.FC = () => {
 
         <button
           onClick={() => window.print()}
-          className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2 rounded-lg text-xs font-mono flex items-center gap-2 transition-all cursor-pointer self-start md:self-auto"
+          className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-lg text-xs font-mono flex items-center gap-2 transition-all cursor-pointer self-start md:self-auto shadow-[0_0_12px_rgba(37,99,235,0.4)]"
         >
           <Printer className="w-4 h-4" />
           <span>Imprimir / Exportar a PDF</span>
@@ -53,7 +53,7 @@ export const AuditReporter: React.FC = () => {
             type="text" 
             value={clientName} 
             onChange={(e) => setClientName(e.target.value)}
-            className="w-full bg-[#060a12] border border-slate-700 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-emerald-500"
+            className="w-full bg-[#060a12] border border-slate-700 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-blue-500"
           />
         </div>
         <div>
@@ -62,7 +62,7 @@ export const AuditReporter: React.FC = () => {
             type="text" 
             value={auditScope} 
             onChange={(e) => setAuditScope(e.target.value)}
-            className="w-full bg-[#060a12] border border-slate-700 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-emerald-500"
+            className="w-full bg-[#060a12] border border-slate-700 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-blue-500"
           />
         </div>
         <div>
@@ -71,7 +71,7 @@ export const AuditReporter: React.FC = () => {
             type="text" 
             value={auditDate} 
             onChange={(e) => setAuditDate(e.target.value)}
-            className="w-full bg-[#060a12] border border-slate-700 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-emerald-500"
+            className="w-full bg-[#060a12] border border-slate-700 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-blue-500"
           />
         </div>
         <div>
@@ -80,7 +80,7 @@ export const AuditReporter: React.FC = () => {
             type="text" 
             value={leadAuditor} 
             onChange={(e) => setLeadAuditor(e.target.value)}
-            className="w-full bg-[#060a12] border border-slate-700 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-emerald-500"
+            className="w-full bg-[#060a12] border border-slate-700 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-blue-500"
           />
         </div>
       </div>
@@ -88,9 +88,9 @@ export const AuditReporter: React.FC = () => {
       {/* Official Report Document Container */}
       <div className="bg-[#0b101d] border border-slate-800 rounded-xl p-6 sm:p-10 shadow-2xl space-y-8 print:bg-white print:text-black print:p-0 print:border-none">
         {/* Report Cover / Header */}
-        <div className="border-b-2 border-emerald-500/80 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="border-b-2 border-blue-500/80 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider mb-1">
               <Award className="w-4 h-4" />
               <span>COMPUAPPS SECUREDEV TECH // INFORME DE SEGURIDAD OFENSIVA</span>
             </div>
@@ -104,7 +104,7 @@ export const AuditReporter: React.FC = () => {
 
           <div className="bg-[#060a12] border border-slate-800 p-3 rounded-lg text-right font-mono text-xs">
             <span className="text-slate-500 block">ID INFORME:</span>
-            <span className="text-emerald-400 font-bold">VEGA-REP-2026-981</span>
+            <span className="text-cyan-400 font-bold">VEGA-REP-2026-981</span>
           </div>
         </div>
 
@@ -127,7 +127,7 @@ export const AuditReporter: React.FC = () => {
           </div>
           <div className="bg-[#060a12] border border-slate-800 p-4 rounded-xl text-center">
             <span className="text-[10px] font-mono text-slate-500 block uppercase">Tiempo Estimado Remediación</span>
-            <span className="text-2xl font-extrabold text-emerald-400 font-mono mt-1 block">72 HORAS</span>
+            <span className="text-2xl font-extrabold text-cyan-400 font-mono mt-1 block">72 HORAS</span>
             <span className="text-[10px] text-slate-400">Fase 1 Prioritaria</span>
           </div>
         </div>
@@ -135,14 +135,14 @@ export const AuditReporter: React.FC = () => {
         {/* Section 1: Executive Summary */}
         <section className="space-y-3">
           <h3 className="text-base font-bold text-white uppercase tracking-wider font-mono border-b border-slate-800 pb-1 flex items-center gap-2">
-            <span className="text-emerald-400">1.0</span>
+            <span className="text-cyan-400">1.0</span>
             <span>Resumen Ejecutivo</span>
           </h3>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
-            Durante el período comprendido, la Unidad de Explotación y Análisis Forense <strong className="text-white">VEGA de CompuApps secureDev Tech</strong> realizó una auditoría de penetración autorizada bajo la modalidad de caja gris sobre los activos de <strong className="text-emerald-400">{clientName}</strong>. 
+            Durante el período comprendido, la Unidad de Explotación y Análisis Forense <strong className="text-white">VEGA de CompuApps secureDev Tech</strong> realizó una auditoría de penetración autorizada bajo la modalidad de caja gris sobre los activos de <strong className="text-cyan-400">{clientName}</strong>. 
             El objetivo primordial consistió en identificar vectores de vulnerabilidad explotables, evaluar la resiliencia de los mecanismos de defensa perimetral (WAF, EDR) y emitir recomendaciones remediadoras definitivas.
           </p>
-          <div className="bg-[#060a12] border border-emerald-950 p-4 rounded-lg text-xs font-mono text-emerald-300">
+          <div className="bg-[#060a12] border border-blue-950 p-4 rounded-lg text-xs font-mono text-cyan-300">
             <strong>Conclusión General:</strong> La postura de seguridad actual presenta brechas significativas en la validación de control de acceso y serialización de objetos en interfaces API, lo que permitió alcanzar ejecución arbitraria de comandos en el servidor anfitrión sin detonar alarmas críticas en los registros por defecto.
           </div>
         </section>
@@ -150,7 +150,7 @@ export const AuditReporter: React.FC = () => {
         {/* Section 2: Detailed Technical Findings */}
         <section className="space-y-4">
           <h3 className="text-base font-bold text-white uppercase tracking-wider font-mono border-b border-slate-800 pb-1 flex items-center gap-2">
-            <span className="text-emerald-400">2.0</span>
+            <span className="text-cyan-400">2.0</span>
             <span>Hallazgos Técnicos Principales</span>
           </h3>
 
@@ -168,7 +168,7 @@ export const AuditReporter: React.FC = () => {
                 El endpoint de conversión de documentos invoca llamadas al intérprete shell sin sanitizar los metadatos del fichero, permitiendo la inyección de comandos arbitrarios con permisos de usuario de servicio.
               </p>
               <div className="text-[11px] font-mono bg-slate-950 p-2.5 rounded border border-slate-900 text-slate-300">
-                <span className="text-emerald-400 font-semibold block mb-0.5">Remediación Inmediata:</span>
+                <span className="text-cyan-400 font-semibold block mb-0.5">Remediación Inmediata:</span>
                 Migrar el procesamiento a bibliotecas seguras en memoria sin invocación a /bin/sh o cmd.exe; restringir la cuenta de servicio con chroot y AppArmor/SELinux.
               </div>
             </div>
@@ -186,7 +186,7 @@ export const AuditReporter: React.FC = () => {
                 Los tokens de autenticación no validan el algoritmo firmado en la cabecera, permitiendo eludir la verificación forjando peticiones con 'alg: none' y accediendo a paneles con rol super-administrador.
               </p>
               <div className="text-[11px] font-mono bg-slate-950 p-2.5 rounded border border-slate-900 text-slate-300">
-                <span className="text-emerald-400 font-semibold block mb-0.5">Remediación Inmediata:</span>
+                <span className="text-cyan-400 font-semibold block mb-0.5">Remediación Inmediata:</span>
                 Forzar el rechazo de tokens sin firma criptográfica asimétrica RSA-256 e implementar autorización basada en roles (RBAC) validada en base de datos.
               </div>
             </div>
@@ -196,7 +196,7 @@ export const AuditReporter: React.FC = () => {
         {/* Section 3: Remediation Roadmap */}
         <section className="space-y-3">
           <h3 className="text-base font-bold text-white uppercase tracking-wider font-mono border-b border-slate-800 pb-1 flex items-center gap-2">
-            <span className="text-emerald-400">3.0</span>
+            <span className="text-cyan-400">3.0</span>
             <span>Plan de Remediación & Cronograma Recomendado</span>
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
@@ -209,7 +209,7 @@ export const AuditReporter: React.FC = () => {
               <p className="text-slate-300">Configuración estricta de reglas de bloqueo en WAF y políticas de Sysmon/auditd.</p>
             </div>
             <div className="bg-[#060a12] border border-slate-800 p-3 rounded-lg">
-              <span className="text-emerald-400 font-bold block mb-1">FASE 3: 30 DÍAS</span>
+              <span className="text-cyan-400 font-bold block mb-1">FASE 3: 30 DÍAS</span>
               <p className="text-slate-300">Re-evaluación completa de penetración con VEGA para certificar cierre de brechas.</p>
             </div>
           </div>

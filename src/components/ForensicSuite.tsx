@@ -114,10 +114,10 @@ export const ForensicSuite: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-[#0a1526] to-slate-900 border border-emerald-900/40 rounded-xl p-5 shadow-lg">
+      <div className="bg-gradient-to-r from-slate-900 via-[#0a1526] to-slate-900 border border-blue-900/40 rounded-xl p-5 shadow-lg">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+            <div className="w-10 h-10 rounded-lg bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0">
               <Fingerprint className="w-6 h-6" />
             </div>
             <div>
@@ -125,7 +125,7 @@ export const ForensicSuite: React.FC = () => {
                 <h2 className="text-xl font-bold text-white tracking-tight">
                   Unidad de Análisis Forense Digital (DFIR)
                 </h2>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950 text-blue-400 border border-blue-800">
                   ISO/IEC 27037 FORENSIC SUITE
                 </span>
               </div>
@@ -141,7 +141,7 @@ export const ForensicSuite: React.FC = () => {
               onClick={() => setActiveSubTab('inspector')}
               className={`px-3 py-1.5 rounded text-xs font-mono transition-colors cursor-pointer ${
                 activeSubTab === 'inspector'
-                  ? 'bg-emerald-500 text-slate-950 font-bold'
+                  ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -151,7 +151,7 @@ export const ForensicSuite: React.FC = () => {
               onClick={() => setActiveSubTab('hasher')}
               className={`px-3 py-1.5 rounded text-xs font-mono transition-colors cursor-pointer ${
                 activeSubTab === 'hasher'
-                  ? 'bg-emerald-500 text-slate-950 font-bold'
+                  ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -161,7 +161,7 @@ export const ForensicSuite: React.FC = () => {
               onClick={() => setActiveSubTab('timeline')}
               className={`px-3 py-1.5 rounded text-xs font-mono transition-colors cursor-pointer ${
                 activeSubTab === 'timeline'
-                  ? 'bg-emerald-500 text-slate-950 font-bold'
+                  ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -171,7 +171,7 @@ export const ForensicSuite: React.FC = () => {
               onClick={() => setActiveSubTab('custody')}
               className={`px-3 py-1.5 rounded text-xs font-mono transition-colors cursor-pointer ${
                 activeSubTab === 'custody'
-                  ? 'bg-emerald-500 text-slate-950 font-bold'
+                  ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -188,7 +188,7 @@ export const ForensicSuite: React.FC = () => {
               type="text" 
               value={caseId} 
               onChange={(e) => setCaseId(e.target.value)}
-              className="bg-[#060a12] border border-slate-700 px-2 py-0.5 rounded text-emerald-400 font-bold focus:outline-none"
+              className="bg-[#060a12] border border-slate-700 px-2 py-0.5 rounded text-blue-400 font-bold focus:outline-none"
             />
           </div>
           <div className="flex items-center gap-2">
@@ -200,7 +200,7 @@ export const ForensicSuite: React.FC = () => {
               className="bg-[#060a12] border border-slate-700 px-2 py-0.5 rounded text-slate-200 focus:outline-none w-64"
             />
           </div>
-          <div className="text-[11px] text-emerald-400">
+          <div className="text-[11px] text-blue-400">
             ENTIDAD CERTIFICADORA: <span className="font-semibold text-white">CompuApps secureDev Tech</span>
           </div>
         </div>
@@ -214,7 +214,7 @@ export const ForensicSuite: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center gap-1.5">
-                  <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+                  <Terminal className="w-3.5 h-3.5 text-blue-400" />
                   <span>Artefacto / Evidencia Digital en Bruto</span>
                 </h3>
               </div>
@@ -225,7 +225,7 @@ export const ForensicSuite: React.FC = () => {
                   <select
                     value={artifactType}
                     onChange={(e) => setArtifactType(e.target.value)}
-                    className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-emerald-500 focus:outline-none"
+                    className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-blue-500 focus:outline-none"
                   >
                     <option value="Log de Servidor Web (Nginx / Apache)">Log de Servidor Web (Nginx / Apache)</option>
                     <option value="Logs de Autenticación Linux (auth.log / syslog)">Logs de Autenticación Linux (auth.log)</option>
@@ -241,7 +241,7 @@ export const ForensicSuite: React.FC = () => {
                     rows={12}
                     value={rawArtifactInput}
                     onChange={(e) => setRawArtifactInput(e.target.value)}
-                    className="w-full bg-[#060a12] border border-slate-700 rounded-lg p-3 text-xs text-emerald-300 font-mono focus:border-emerald-500 focus:outline-none leading-relaxed"
+                    className="w-full bg-[#060a12] border border-slate-700 rounded-lg p-3 text-xs text-cyan-300 font-mono focus:border-blue-500 focus:outline-none leading-relaxed"
                     placeholder="Pegar líneas de log, código o volcados de memoria..."
                   />
                 </div>
@@ -251,7 +251,7 @@ export const ForensicSuite: React.FC = () => {
             <button
               onClick={handleInspectArtifact}
               disabled={isInspecting}
-              className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 px-4 rounded-lg text-xs flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all cursor-pointer disabled:opacity-50"
+              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-4 rounded-lg text-xs flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all cursor-pointer disabled:opacity-50"
             >
               {isInspecting ? (
                 <>
@@ -271,7 +271,7 @@ export const ForensicSuite: React.FC = () => {
           <div className="lg:col-span-7 bg-[#0b101d] border border-slate-800 rounded-xl p-5 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <div className="flex items-center gap-2">
-                <FileCheck2 className="w-4 h-4 text-emerald-400" />
+                <FileCheck2 className="w-4 h-4 text-cyan-400" />
                 <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
                   Dictamen Pericial & Detección de Amenazas
                 </h3>
@@ -324,7 +324,7 @@ export const ForensicSuite: React.FC = () => {
 
             {/* Chain of Custody Note */}
             <div className="pt-3 border-t border-slate-800 text-xs font-mono text-slate-400">
-              <span className="text-emerald-400 font-bold block mb-0.5">Nota Legal ISO/IEC 27037:</span>
+              <span className="text-cyan-400 font-bold block mb-0.5">Nota Legal ISO/IEC 27037:</span>
               <p>{inspectionResult.chainOfCustodyNotes}</p>
             </div>
           </div>
@@ -349,7 +349,7 @@ export const ForensicSuite: React.FC = () => {
               rows={4}
               value={hashInputText}
               onChange={(e) => handleRecalculateHashes(e.target.value)}
-              className="w-full bg-[#060a12] border border-slate-700 rounded-lg p-3 text-xs text-slate-200 font-mono focus:border-emerald-500 focus:outline-none"
+              className="w-full bg-[#060a12] border border-slate-700 rounded-lg p-3 text-xs text-slate-200 font-mono focus:border-blue-500 focus:outline-none"
               placeholder="Ingresa texto o datos binarios..."
             />
           </div>
@@ -357,10 +357,10 @@ export const ForensicSuite: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-[#060a12] border border-slate-800 rounded-lg p-3.5 space-y-1">
               <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-emerald-400 font-bold">MD5 HASH:</span>
+                <span className="text-cyan-400 font-bold">MD5 HASH:</span>
                 <button 
                   onClick={() => navigator.clipboard.writeText(calculatedHashes.md5)}
-                  className="text-slate-500 hover:text-emerald-400 cursor-pointer"
+                  className="text-slate-500 hover:text-cyan-400 cursor-pointer"
                 >
                   Copiar
                 </button>
@@ -385,20 +385,20 @@ export const ForensicSuite: React.FC = () => {
               </div>
             </div>
 
-            <div className="md:col-span-2 bg-[#060a12] border border-emerald-950 rounded-lg p-3.5 space-y-1">
+            <div className="md:col-span-2 bg-[#060a12] border border-blue-950 rounded-lg p-3.5 space-y-1">
               <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-emerald-400 font-bold flex items-center gap-1.5">
+                <span className="text-cyan-400 font-bold flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   SHA-256 HASH (ESTÁNDAR JUDICIAL RECOMENDADO):
                 </span>
                 <button 
                   onClick={() => navigator.clipboard.writeText(calculatedHashes.sha256)}
-                  className="text-slate-500 hover:text-emerald-400 cursor-pointer"
+                  className="text-slate-500 hover:text-cyan-400 cursor-pointer"
                 >
                   Copiar
                 </button>
               </div>
-              <div className="text-xs font-mono text-emerald-300 break-all select-all font-semibold">
+              <div className="text-xs font-mono text-cyan-300 break-all select-all font-semibold">
                 {calculatedHashes.sha256}
               </div>
             </div>
@@ -435,13 +435,13 @@ export const ForensicSuite: React.FC = () => {
             </div>
           </div>
 
-          <div className="relative pl-6 border-l-2 border-emerald-900/60 space-y-6">
+          <div className="relative pl-6 border-l-2 border-blue-900/60 space-y-6">
             {inspectionResult.timelineEvents?.map((event: any, idx: number) => (
               <div key={idx} className="relative">
-                <div className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-4 border-[#0b101d]"></div>
+                <div className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-blue-500 border-4 border-[#0b101d]"></div>
                 <div className="bg-[#060a12] border border-slate-800 rounded-lg p-3.5">
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
-                    <span className="font-mono text-xs font-bold text-emerald-400">
+                    <span className="font-mono text-xs font-bold text-cyan-400">
                       {event.time}
                     </span>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 text-cyan-300 border border-slate-800">
@@ -466,7 +466,7 @@ export const ForensicSuite: React.FC = () => {
         <div className="bg-[#0b101d] border border-slate-800 rounded-xl p-6 space-y-5 print:bg-white print:text-black">
           <div className="flex items-center justify-between border-b border-slate-800 pb-4">
             <div>
-              <div className="text-xs font-mono text-emerald-400 font-bold uppercase">
+              <div className="text-xs font-mono text-cyan-400 font-bold uppercase">
                 COMPUAPPS SECUREDEV TECH // DIVISIÓN FORENSE
               </div>
               <h3 className="text-lg font-bold text-white tracking-tight">
@@ -481,7 +481,7 @@ export const ForensicSuite: React.FC = () => {
               onClick={() => window.print()}
               className="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 px-3 py-1.5 rounded text-xs font-mono flex items-center gap-1.5 transition-colors cursor-pointer"
             >
-              <Printer className="w-3.5 h-3.5 text-emerald-400" />
+              <Printer className="w-3.5 h-3.5 text-cyan-400" />
               <span>Imprimir Ficha</span>
             </button>
           </div>
@@ -489,7 +489,7 @@ export const ForensicSuite: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
             <div className="bg-[#060a12] p-3 rounded border border-slate-800">
               <span className="text-slate-500 block mb-0.5">NÚMERO DE CASO:</span>
-              <span className="text-emerald-400 font-bold">{caseId}</span>
+              <span className="text-cyan-400 font-bold">{caseId}</span>
             </div>
             <div className="bg-[#060a12] p-3 rounded border border-slate-800">
               <span className="text-slate-500 block mb-0.5">PERITO / CUSTODIO PRINCIPAL:</span>
@@ -505,7 +505,7 @@ export const ForensicSuite: React.FC = () => {
             </div>
             <div className="md:col-span-2 bg-[#060a12] p-3 rounded border border-slate-800">
               <span className="text-slate-500 block mb-0.5">HASH SHA-256 DE ADQUISICIÓN:</span>
-              <span className="text-emerald-300 font-bold break-all">{calculatedHashes.sha256}</span>
+              <span className="text-cyan-300 font-bold break-all">{calculatedHashes.sha256}</span>
             </div>
           </div>
 

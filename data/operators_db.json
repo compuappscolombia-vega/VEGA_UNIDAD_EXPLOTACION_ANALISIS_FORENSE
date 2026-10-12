@@ -1,0 +1,26 @@
+[
+  {
+    "operatorId": "AdminCEO",
+    "fullName": "Jefe de Auditorías de Seguridad (CEO)",
+    "role": "AUDITOR_CHIEF",
+    "salt": "dead367ff5f96578c36c29894b2f10b8",
+    "passwordHash": "da7e30c8ed81c5f147b6e4705be3b104c6fe16210b9d7c509e1e6739cad6700bfa6819606e62918d5b30f3d826832e2fd210492d4c2be04cd564cff4d170bce5",
+    "isCEO": true,
+    "isActive": true,
+    "createdAt": "2026-10-12T10:01:40.436Z",
+    "createdBy": "SYSTEM_BOOTSTRAP",
+    "lastLogin": "2026-10-12T11:13:47.225Z"
+  },
+  {
+    "operatorId": "OP-FORENSIC-01",
+    "fullName": "Lic. Roberto Gomez (Perito Forense)",
+    "role": "FORENSIC_EXPERT",
+    "salt": "5da90e3b15016e7375cc725b087ae20f",
+    "passwordHash": "ca1d331b18d2a5ad7d889b1e8e4deac514adfc64495c1d2d20da2aa874897222dd97e046f63fe0f2cc186882926d670b55b3f15be8ee00939fbffb2094b63323",
+    "isCEO": false,
+    "isActive": true,
+    "createdAt": "2026-10-12T10:05:20.259Z",
+    "createdBy": "AdminCEO",
+    "lastLogin": "2026-10-12T10:05:26.616Z"
+  }
+]

@@ -13,7 +13,9 @@ import {
   AlertTriangle,
   Lightbulb,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  ShieldCheck,
+  Video
 } from 'lucide-react';
 import { ModuleTab } from '../types/vega';
 
@@ -29,46 +31,66 @@ export const GuidedAssistant: React.FC<GuidedAssistantProps> = ({ onNavigateTab,
     {
       num: 1,
       id: 'vulnerability_radar' as ModuleTab,
-      title: 'Paso 1: Explorar el Objetivo (Escaneo)',
-      desc: 'Descubre qué puertas (puertos) y servicios tiene abiertos el sistema y si existen fallas conocidas (CVEs).',
+      title: 'Paso 1: Explorar Objetivo (Escaneo)',
+      desc: 'Descubre qué puertas y servicios tiene abiertos el sistema y si existen fallas conocidas (CVEs).',
       actionLabel: 'Abrir Escáner de Vulnerabilidades',
-      icon: <Search className="w-4 h-4 text-emerald-400" />
+      icon: <Search className="w-4 h-4 text-cyan-400" />
     },
     {
       num: 2,
       id: 'ai_pentest' as ModuleTab,
       title: 'Paso 2: Diagnóstico con Inteligencia Artificial',
-      desc: 'La IA analiza la información encontrada y calcula qué tan vulnerable es el sistema y qué fallas se pueden explotar.',
+      desc: 'La IA analiza la información y calcula qué tan vulnerable es el sistema y vectores de ataque.',
       actionLabel: 'Consultar Diagnóstico de IA',
-      icon: <Cpu className="w-4 h-4 text-cyan-400" />
+      icon: <Cpu className="w-4 h-4 text-blue-400" />
     },
     {
       num: 3,
       id: 'script_forge' as ModuleTab,
       title: 'Paso 3: Probar con Scripts Reales',
-      desc: 'Genera herramientas y scripts a medida (Python, Bash, PowerShell) para comprobar en la práctica que la falla existe.',
+      desc: 'Genera herramientas a medida (Python, Bash, PowerShell) para comprobar la explotación.',
       actionLabel: 'Crear Scripts de Prueba',
       icon: <FileCode2 className="w-4 h-4 text-amber-400" />
     },
     {
       num: 4,
       id: 'forensic_suite' as ModuleTab,
-      title: 'Paso 4: Análisis Forense & Cadena de Custodia',
-      desc: 'Registra la huella digital criptográfica (Hashes SHA-256) para que la prueba tenga validez legal inalterable.',
+      title: 'Paso 4: Análisis Forense & DFIR',
+      desc: 'Inspección de artefactos, timeline de intrusión y hashes SHA-256 con validez legal.',
       actionLabel: 'Ver Unidad Forense',
       icon: <Fingerprint className="w-4 h-4 text-violet-400" />
     },
     {
       num: 5,
+      id: 'multimedia_lab' as ModuleTab,
+      title: 'Paso 5: Laboratorio Multimedia con IA',
+      desc: 'Módulos dedicados para transcripción de interceptaciones, generación de imágenes y síntesis de video.',
+      actionLabel: 'Abrir Lab Multimedia',
+      icon: <Video className="w-4 h-4 text-sky-400" />
+    },
+    {
+      num: 6,
+      id: 'audit_logs' as ModuleTab,
+      title: 'Paso 6: Bitácora Central (Audit Log)',
+      desc: 'Registro inmutable con hashes SHA-256 encadenados de cada acción de los operadores.',
+      actionLabel: 'Ver Bitácora Forense',
+      icon: <ShieldCheck className="w-4 h-4 text-blue-400" />
+    },
+    {
+      num: 7,
       id: 'audit_reports' as ModuleTab,
-      title: 'Paso 5: Emitir Reporte para el Cliente',
-      desc: 'Genera el informe ejecutivo formal con el resumen del riesgo, hallazgos y pasos para solucionar los problemas.',
+      title: 'Paso 7: Emitir Reporte Formal',
+      desc: 'Genera el informe pericial ejecutivo para el cliente con resumen de riesgo y mitigación.',
       actionLabel: 'Generar Reporte Formal',
-      icon: <FileText className="w-4 h-4 text-emerald-400" />
+      icon: <FileText className="w-4 h-4 text-cyan-400" />
     }
   ];
 
   const glossaryItems = [
+    {
+      term: 'Bitácora Forense (Audit Trail / Hash Chaining)',
+      explanation: 'Es un registro inmutable donde cada acción del operador se firma con una cadena de hashes SHA-256 (similar a una blockchain). Sirve como prueba jurídica de qué se hizo, cuándo y por qué operador, bajo la norma ISO/IEC 27037.'
+    },
     {
       term: 'CVE (Common Vulnerabilities and Exposures)',
       explanation: 'Es el código internacional único que identifica una falla de seguridad en un programa (por ejemplo, CVE-2024-3400). Permite saber qué versión del software tiene el error.'
@@ -106,7 +128,7 @@ export const GuidedAssistant: React.FC<GuidedAssistantProps> = ({ onNavigateTab,
               </span>
             </h3>
             <p className="text-xs text-slate-400">
-              Sigue estos 5 pasos ordenados para realizar una auditoría de seguridad y análisis forense completo.
+              Sigue estos 7 pasos guiados para realizar una auditoría de seguridad, análisis forense pericial y generación multimedia con IA.
             </p>
           </div>
         </div>
@@ -121,8 +143,8 @@ export const GuidedAssistant: React.FC<GuidedAssistantProps> = ({ onNavigateTab,
         </button>
       </div>
 
-      {/* 5 Guided Steps */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mt-4">
+      {/* 7 Guided Steps */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-7 gap-3 mt-4">
         {steps.map((st) => {
           const isCurrent = activeTab === st.id;
           return (
@@ -172,7 +194,7 @@ export const GuidedAssistant: React.FC<GuidedAssistantProps> = ({ onNavigateTab,
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {glossaryItems.map((item, i) => (
               <div key={i} className="bg-[#060a12] border border-slate-800 p-3 rounded-lg text-xs">
-                <span className="font-bold text-emerald-400 block mb-1 font-mono">
+                <span className="font-bold text-cyan-400 block mb-1 font-mono">
                   {item.term}
                 </span>
                 <p className="text-slate-300 leading-relaxed text-[11px]">

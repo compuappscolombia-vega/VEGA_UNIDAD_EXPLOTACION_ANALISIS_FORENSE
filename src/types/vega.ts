@@ -3,8 +3,12 @@ export type ModuleTab =
   | 'ai_pentest' 
   | 'script_forge' 
   | 'forensic_suite' 
+  | 'multimedia_lab' 
+  | 'geo_maps_intel'
   | 'mitre_matrix' 
   | 'audit_reports'
+  | 'audit_logs'
+  | 'operator_management'
   | 'deploy_export';
 
 export type UserMode = 'guided' | 'expert';
@@ -12,8 +16,35 @@ export type UserMode = 'guided' | 'expert';
 export interface OperatorSession {
   isAuthenticated: boolean;
   operatorId: string;
+  fullName?: string;
   role: 'AUDITOR_CHIEF' | 'SECURITY_ENGINEER' | 'FORENSIC_EXPERT';
+  isCEO?: boolean;
+  token?: string;
   loginTime: string;
+}
+
+export interface StoredOperator {
+  operatorId: string;
+  fullName: string;
+  role: 'AUDITOR_CHIEF' | 'SECURITY_ENGINEER' | 'FORENSIC_EXPERT';
+  isCEO: boolean;
+  isActive: boolean;
+  createdAt: string;
+  createdBy: string;
+  lastLogin: string | null;
+}
+
+export interface AuditLogEntry {
+  id: string;
+  timestamp: string;
+  operatorId: string;
+  role: string;
+  actionType: 'AUTH' | 'SCAN' | 'AI_ANALYSIS' | 'SCRIPT_FORGE' | 'FORENSICS' | 'REPORT' | 'SYSTEM' | 'DOWNLOAD';
+  actionDetail: string;
+  target?: string;
+  severity: 'INFO' | 'NOTICE' | 'WARNING' | 'CRITICAL';
+  entryHash: string;
+  previousHash: string;
 }
 
 export interface TargetProfile {

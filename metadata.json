@@ -1,6 +1,6 @@
 {
   "name": "VEGA - Unidad de Explotación y Análisis Forense",
-  "description": "Motor de IA Ofensiva de CompuApps secureDev Tech para pentesting autorizado, identificación y explotación de vulnerabilidades, generación de scripts de ataque personalizados y análisis forense digital.",
+  "description": "Motor de IA Ofensiva de CompuApps SecureDev Tech para pentesting autorizado, identificación y explotación de vulnerabilidades, generación de scripts de ataque personalizados y análisis forense digital.",
   "capabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
   ]

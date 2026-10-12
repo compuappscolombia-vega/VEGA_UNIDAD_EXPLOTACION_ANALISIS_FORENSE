@@ -225,11 +225,11 @@ if __name__ == "__main__":
   return (
     <div className="space-y-6">
       {/* Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-[#0d1624] to-slate-900 border border-emerald-900/40 rounded-xl p-5 shadow-lg">
+      <div className="bg-gradient-to-r from-slate-900 via-[#0d1624] to-slate-900 border border-blue-900/40 rounded-xl p-5 shadow-lg">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-emerald-400 text-xs font-mono font-semibold tracking-wide uppercase mb-1">
-              <Code2 className="w-4 h-4 text-emerald-400" />
+            <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono font-semibold tracking-wide uppercase mb-1">
+              <Code2 className="w-4 h-4 text-cyan-400" />
               <span>GENERADOR DE HERRAMIENTAS Y SCRIPTS DE ATAQUE 100% PERSONALIZADOS</span>
             </div>
             <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">
@@ -243,7 +243,7 @@ if __name__ == "__main__":
           <button
             onClick={handleGenerateScript}
             disabled={isGenerating}
-            className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-2.5 rounded-lg text-xs flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all cursor-pointer disabled:opacity-50"
+            className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-5 py-2.5 rounded-lg text-xs flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all cursor-pointer disabled:opacity-50"
           >
             {isGenerating ? (
               <>
@@ -266,7 +266,7 @@ if __name__ == "__main__":
             <select
               value={toolType}
               onChange={(e) => setToolType(e.target.value)}
-              className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-emerald-500 focus:outline-none"
+              className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-blue-500 focus:outline-none"
             >
               <option value="Reverse Shell Interactivo">Reverse Shell Interactivo</option>
               <option value="Scanner de Puertos Multihilo">Scanner de Puertos Multihilo</option>
@@ -282,7 +282,7 @@ if __name__ == "__main__":
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value as any)}
-              className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-emerald-400 font-mono font-bold focus:border-emerald-500 focus:outline-none"
+              className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-cyan-400 font-mono font-bold focus:border-blue-500 focus:outline-none"
             >
               <option value="Python">Python 3 (Universal)</option>
               <option value="Bash">Bash / POSIX Shell</option>
@@ -297,7 +297,7 @@ if __name__ == "__main__":
               type="text" 
               value={targetHost} 
               onChange={(e) => setTargetHost(e.target.value)}
-              className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-emerald-500 focus:outline-none"
+              className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-blue-500 focus:outline-none"
               placeholder="10.10.14.85"
             />
           </div>
@@ -308,7 +308,7 @@ if __name__ == "__main__":
               type="text" 
               value={targetPort} 
               onChange={(e) => setTargetPort(e.target.value)}
-              className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-emerald-500 focus:outline-none"
+              className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-blue-500 focus:outline-none"
               placeholder="4444"
             />
           </div>
@@ -319,7 +319,7 @@ if __name__ == "__main__":
               type="text" 
               value={objective} 
               onChange={(e) => setObjective(e.target.value)}
-              className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-emerald-500 focus:outline-none"
+              className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-blue-500 focus:outline-none"
             />
           </div>
 
@@ -328,7 +328,7 @@ if __name__ == "__main__":
             <select
               value={evasionLevel}
               onChange={(e) => setEvasionLevel(e.target.value)}
-              className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-emerald-500 focus:outline-none"
+              className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-blue-500 focus:outline-none"
             >
               <option value="Estándar">Estándar (Sin ofuscación compleja)</option>
               <option value="Media (Jitter + Codificación Dinámica)">Media (Jitter + Codificación Dinámica)</option>
@@ -347,11 +347,11 @@ if __name__ == "__main__":
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block"></span>
               <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block"></span>
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-500/80 inline-block"></span>
               <span className="font-mono text-xs text-slate-300 ml-2 font-semibold">
                 {activeScript.scriptName}
               </span>
-              <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+              <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-blue-950 text-cyan-400 border border-blue-800">
                 {activeScript.language}
               </span>
             </div>
@@ -370,13 +370,13 @@ if __name__ == "__main__":
                 onClick={handleCopy}
                 className="text-xs font-mono text-slate-300 bg-slate-900 hover:bg-slate-800 border border-slate-700 px-2.5 py-1 rounded flex items-center gap-1.5 transition-colors cursor-pointer"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? <Check className="w-3.5 h-3.5 text-cyan-400" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copied ? 'Copiado' : 'Copiar'}</span>
               </button>
 
               <button
                 onClick={handleDownload}
-                className="text-xs font-mono text-emerald-300 bg-emerald-950/70 hover:bg-emerald-900/80 border border-emerald-800/60 px-2.5 py-1 rounded flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="text-xs font-mono text-cyan-300 bg-blue-950/70 hover:bg-blue-900/80 border border-blue-800/60 px-2.5 py-1 rounded flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Descargar</span>
@@ -385,7 +385,7 @@ if __name__ == "__main__":
           </div>
 
           {/* Code Body */}
-          <div className="relative flex-1 bg-[#050811] p-4 font-mono text-xs text-emerald-300/90 overflow-x-auto max-h-[500px]">
+          <div className="relative flex-1 bg-[#050811] p-4 font-mono text-xs text-cyan-300/90 overflow-x-auto max-h-[500px]">
             <pre className="whitespace-pre leading-relaxed">{activeScript.code}</pre>
           </div>
 
@@ -406,7 +406,7 @@ if __name__ == "__main__":
           {/* Deployment Instructions Card */}
           <div className="bg-[#0b101d] border border-slate-800 rounded-xl p-4">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono mb-2 flex items-center gap-1.5">
-              <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+              <Terminal className="w-3.5 h-3.5 text-cyan-400" />
               <span>Instrucciones de Despliegue</span>
             </h4>
             <div className="bg-[#060a12] p-3 rounded-lg border border-slate-800 text-xs font-mono text-slate-300 whitespace-pre-wrap leading-relaxed">

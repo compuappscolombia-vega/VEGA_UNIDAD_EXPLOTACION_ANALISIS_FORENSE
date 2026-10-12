@@ -116,11 +116,11 @@ export const DeployExportCenter: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-[#0a1828] to-slate-900 border border-emerald-900/40 rounded-xl p-5 shadow-lg">
+      <div className="bg-gradient-to-r from-slate-900 via-[#0a1828] to-slate-900 border border-blue-900/40 rounded-xl p-5 shadow-lg">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-emerald-400 text-xs font-mono font-semibold tracking-wide uppercase mb-1">
-              <Cloud className="w-4 h-4 text-emerald-400" />
+            <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono font-semibold tracking-wide uppercase mb-1">
+              <Cloud className="w-4 h-4 text-cyan-400" />
               <span>CENTRO DE DESCARGA, PUBLICACIÓN Y VERIFICACIÓN EN VIVO</span>
             </div>
             <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">
@@ -134,7 +134,7 @@ export const DeployExportCenter: React.FC = () => {
           <button
             onClick={handleDownloadZip}
             disabled={isDownloading}
-            className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold px-5 py-3 rounded-lg text-xs font-mono flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.35)] transition-all cursor-pointer self-start md:self-auto disabled:opacity-50"
+            className="bg-blue-600 hover:bg-blue-500 text-white font-extrabold px-5 py-3 rounded-lg text-xs font-mono flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all cursor-pointer self-start md:self-auto disabled:opacity-50"
           >
             {isDownloading ? (
               <>
@@ -158,7 +158,7 @@ export const DeployExportCenter: React.FC = () => {
           <div>
             <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                <ShieldCheck className="w-5 h-5 text-cyan-400" />
                 <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
                   Verificación de Funcionamiento Real
                 </h3>
@@ -180,65 +180,65 @@ export const DeployExportCenter: React.FC = () => {
             <div className="space-y-3 font-mono text-xs">
               <div className="bg-[#060a12] border border-slate-800 p-3 rounded-lg flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
                   <div>
                     <span className="text-slate-200 font-semibold block">Servidor Express Backend</span>
                     <span className="text-[10px] text-slate-500">API REST en puerto 3000 con CORS y rutas activas</span>
                   </div>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+                <span className="text-[10px] px-2 py-0.5 rounded bg-blue-950 text-cyan-400 border border-blue-800">
                   ONLINE (HTTP 200)
                 </span>
               </div>
 
               <div className="bg-[#060a12] border border-slate-800 p-3 rounded-lg flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
                   <div>
                     <span className="text-slate-200 font-semibold block">Motor de IA Ofensiva (Gemini / Red Team)</span>
                     <span className="text-[10px] text-slate-500">Razonamiento de kill-chain y bypass defensivo</span>
                   </div>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+                <span className="text-[10px] px-2 py-0.5 rounded bg-blue-950 text-cyan-400 border border-blue-800">
                   ACTIVO
                 </span>
               </div>
 
               <div className="bg-[#060a12] border border-slate-800 p-3 rounded-lg flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
                   <div>
                     <span className="text-slate-200 font-semibold block">Forja de Scripts 100% Personalizados</span>
                     <span className="text-[10px] text-slate-500">Generación de Python, Bash, PowerShell y Go</span>
                   </div>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+                <span className="text-[10px] px-2 py-0.5 rounded bg-blue-950 text-cyan-400 border border-blue-800">
                   FUNCIONAL
                 </span>
               </div>
 
               <div className="bg-[#060a12] border border-slate-800 p-3 rounded-lg flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
                   <div>
                     <span className="text-slate-200 font-semibold block">Unidad Forense DFIR & Hashes</span>
                     <span className="text-[10px] text-slate-500">Integridad MD5/SHA-256 e informe ISO/IEC 27037</span>
                   </div>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+                <span className="text-[10px] px-2 py-0.5 rounded bg-blue-950 text-cyan-400 border border-blue-800">
                   VERIFICADO
                 </span>
               </div>
 
               <div className="bg-[#060a12] border border-slate-800 p-3 rounded-lg flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
                   <div>
                     <span className="text-slate-200 font-semibold block">Generador de Archivo ZIP Autónomo</span>
                     <span className="text-[10px] text-slate-500">Endpoint /api/download-project-zip listo</span>
                   </div>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+                <span className="text-[10px] px-2 py-0.5 rounded bg-blue-950 text-cyan-400 border border-blue-800">
                   LISTO (1-CLIC)
                 </span>
               </div>
@@ -246,7 +246,7 @@ export const DeployExportCenter: React.FC = () => {
           </div>
 
           <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
-            <span>Latencia media de respuesta: <strong className="text-emerald-400">{diagnosticResults.latencyMs} ms</strong></span>
+            <span>Latencia media de respuesta: <strong className="text-cyan-400">{diagnosticResults.latencyMs} ms</strong></span>
             <span>Último diagnóstico: <strong className="text-slate-300">{diagnosticResults.testedAt}</strong></span>
           </div>
         </div>
@@ -254,24 +254,24 @@ export const DeployExportCenter: React.FC = () => {
         {/* Right Column: Public Deployment & How to Publish (6 cols) */}
         <div className="lg:col-span-6 space-y-6">
           {/* Public App URL Card */}
-          <div className="bg-[#0b101d] border border-emerald-500/30 rounded-xl p-5 space-y-4">
+          <div className="bg-[#0b101d] border border-blue-500/30 rounded-xl p-5 space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Globe className="w-4 h-4 text-emerald-400" />
+                <Globe className="w-4 h-4 text-cyan-400" />
                 <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
                   URLs de Acceso y Publicación
                 </h3>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950 text-cyan-300 border border-blue-800">
                 CLOUD RUN
               </span>
             </div>
 
             {/* URL 1: Active Development URL */}
-            <div className="bg-[#060a12] border border-emerald-950/80 p-3.5 rounded-lg space-y-1.5">
+            <div className="bg-[#060a12] border border-blue-950/80 p-3.5 rounded-lg space-y-1.5">
               <div className="flex items-center justify-between text-[11px] font-mono">
-                <span className="text-emerald-400 font-bold flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span className="text-cyan-400 font-bold flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
                   1. URL EN VIVO Y ACTIVA AHORA MISMO (Dev App):
                 </span>
                 <span className="text-slate-500 text-[10px]">OPERATIVA</span>
@@ -286,13 +286,13 @@ export const DeployExportCenter: React.FC = () => {
                     className="p-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded border border-slate-700 transition-colors cursor-pointer"
                     title="Copiar enlace directo"
                   >
-                    {copiedDev ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copiedDev ? <Check className="w-3.5 h-3.5 text-cyan-400" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                   <a
                     href={devUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 bg-emerald-950 hover:bg-emerald-900 text-emerald-300 rounded border border-emerald-800 transition-colors cursor-pointer"
+                    className="p-1.5 bg-blue-950 hover:bg-blue-900 text-cyan-300 rounded border border-blue-800 transition-colors cursor-pointer"
                     title="Abrir en pestaña nueva"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -343,21 +343,21 @@ export const DeployExportCenter: React.FC = () => {
             </h3>
 
             <p className="text-xs text-slate-400 mb-3">
-              Al descargar el archivo comprimido <span className="text-emerald-400 font-mono">VEGA_UNIDAD_EXPLOTACION_ANALISIS_FORENSE.zip</span>:
+              Al descargar el archivo comprimido <span className="text-cyan-400 font-mono">VEGA_UNIDAD_EXPLOTACION_ANALISIS_FORENSE.zip</span>:
             </p>
 
             <div className="space-y-2 font-mono text-xs">
               <div className="bg-[#060a12] p-2.5 rounded border border-slate-800">
                 <span className="text-slate-500 block text-[10px]">1. Descomprime el archivo y entra a la carpeta:</span>
-                <span className="text-emerald-300">unzip VEGA_UNIDAD_EXPLOTACION_ANALISIS_FORENSE.zip</span>
+                <span className="text-cyan-300">unzip VEGA_UNIDAD_EXPLOTACION_ANALISIS_FORENSE.zip</span>
               </div>
               <div className="bg-[#060a12] p-2.5 rounded border border-slate-800">
                 <span className="text-slate-500 block text-[10px]">2. Instala las dependencias necesarias:</span>
-                <span className="text-emerald-300">npm install</span>
+                <span className="text-cyan-300">npm install</span>
               </div>
               <div className="bg-[#060a12] p-2.5 rounded border border-slate-800">
                 <span className="text-slate-500 block text-[10px]">3. Inicia el servidor de desarrollo en http://localhost:3000:</span>
-                <span className="text-emerald-300">npm run dev</span>
+                <span className="text-cyan-300">npm run dev</span>
               </div>
             </div>
           </div>

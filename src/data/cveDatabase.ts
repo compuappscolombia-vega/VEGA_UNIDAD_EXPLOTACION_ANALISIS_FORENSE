@@ -85,7 +85,7 @@ export const MITRE_TACTICS_DATA = [
   {
     tactic: 'TA0001 - Initial Access',
     name: 'Acceso Inicial',
-    color: 'emerald',
+    color: 'blue',
     techniques: [
       { id: 'T1190', name: 'Exploit Public-Facing Application', description: 'Explotación de fallos en software expuesto a internet (Apache, Nginx, VPNs).', detection: 'WAF logs, IDS alerts, core dump inspect.' },
       { id: 'T1133', name: 'External Remote Services', description: 'Acceso mediante VPN, Citrix o RDP expuestos con credenciales filtradas.', detection: 'MFA logs, conexiones desde IPs anómalas.' },
