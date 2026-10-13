@@ -3,13 +3,13 @@
     "operatorId": "AdminCEO",
     "fullName": "Jefe de Auditorías de Seguridad (CEO)",
     "role": "AUDITOR_CHIEF",
-    "salt": "dead367ff5f96578c36c29894b2f10b8",
-    "passwordHash": "da7e30c8ed81c5f147b6e4705be3b104c6fe16210b9d7c509e1e6739cad6700bfa6819606e62918d5b30f3d826832e2fd210492d4c2be04cd564cff4d170bce5",
+    "salt": "ff37a02ceab74df38f748f807001b1a7",
+    "passwordHash": "d7a2c1f59777ec90e52ae105c6c924c4de74782568c76615c2f02bd2aaaf526668ae20288a1df23262ad86a73c3d6f67c7bc11c1a85255604c755944b0201d6a",
     "isCEO": true,
     "isActive": true,
     "createdAt": "2026-10-12T10:01:40.436Z",
     "createdBy": "SYSTEM_BOOTSTRAP",
-    "lastLogin": "2026-10-12T11:13:47.225Z"
+    "lastLogin": "2026-10-13T21:51:50.358Z"
   },
   {
     "operatorId": "OP-FORENSIC-01",

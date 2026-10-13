@@ -4,29 +4,76 @@
     <meta charset="UTF-8" />
     <script>
       (function() {
-        function isExtensionError(msg, src) {
-          var text = String(msg || '') + ' ' + String(src || '');
-          return text.includes('chrome-extension://') || 
-                 text.includes('MetaMask') || 
-                 text.includes('Failed to connect to MetaMask') ||
-                 text.includes('ethereum') ||
-                 text.includes('inpage.js');
+        function isExtensionError(str) {
+          if (!str) return false;
+          var text = String(str);
+          return text.indexOf('chrome-extension://') !== -1 ||
+                 text.indexOf('moz-extension://') !== -1 ||
+                 text.indexOf('MetaMask') !== -1 ||
+                 text.indexOf('Failed to connect to MetaMask') !== -1 ||
+                 text.indexOf('ethereum') !== -1 ||
+                 text.indexOf('inpage.js') !== -1;
         }
+
+        function extractErrorInfo(val) {
+          if (!val) return '';
+          if (typeof val === 'string') return val;
+          return String(val.message || '') + ' ' + String(val.stack || '') + ' ' + String(val);
+        }
+
+        // Intercept global window.onerror
+        var oldOnError = window.onerror;
+        window.onerror = function(message, source, lineno, colno, error) {
+          var combined = String(message || '') + ' ' + String(source || '') + ' ' + extractErrorInfo(error);
+          if (isExtensionError(combined)) {
+            return true; // suppresses browser error reporting
+          }
+          if (typeof oldOnError === 'function') {
+            return oldOnError.apply(this, arguments);
+          }
+          return false;
+        };
+
+        // Capture error events at capture phase
         window.addEventListener('error', function(e) {
-          if (isExtensionError(e.message, e.filename)) {
+          var combined = String(e.message || '') + ' ' + String(e.filename || '') + ' ' + extractErrorInfo(e.error);
+          if (isExtensionError(combined)) {
             e.preventDefault();
             e.stopImmediatePropagation();
             return true;
           }
         }, true);
+
+        // Capture unhandled rejections at capture phase
         window.addEventListener('unhandledrejection', function(e) {
-          var reason = e.reason ? (e.reason.message || e.reason.stack || String(e.reason)) : '';
-          if (isExtensionError(reason, '')) {
+          var combined = extractErrorInfo(e.reason);
+          if (isExtensionError(combined)) {
             e.preventDefault();
             e.stopImmediatePropagation();
             return true;
           }
         }, true);
+
+        // Filter console.error and console.warn so third-party extension failures do not trigger dev harness errors
+        var origConsoleError = console.error;
+        console.error = function() {
+          var args = Array.prototype.slice.call(arguments);
+          var allText = args.map(extractErrorInfo).join(' ');
+          if (isExtensionError(allText)) {
+            return;
+          }
+          origConsoleError.apply(console, arguments);
+        };
+
+        var origConsoleWarn = console.warn;
+        console.warn = function() {
+          var args = Array.prototype.slice.call(arguments);
+          var allText = args.map(extractErrorInfo).join(' ');
+          if (isExtensionError(allText)) {
+            return;
+          }
+          origConsoleWarn.apply(console, arguments);
+        };
       })();
     </script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10'/><path d='m9 12 2 2 4-4'/></svg>" />

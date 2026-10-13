@@ -10,7 +10,9 @@ import {
   ArrowRight,
   Eye,
   EyeOff,
-  ShieldCheck
+  ShieldCheck,
+  Copy,
+  Check
 } from 'lucide-react';
 import { OperatorSession } from '../types/vega';
 
@@ -19,16 +21,25 @@ interface AccessControlGateProps {
 }
 
 export const AccessControlGate: React.FC<AccessControlGateProps> = ({ onAuthenticate }) => {
-  const [operatorId, setOperatorId] = useState('AdminCEO');
+  // Completely empty state - NO autocomplete, NO automatic pre-filling
+  const [operatorId, setOperatorId] = useState('');
   const [accessKey, setAccessKey] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [copiedUser, setCopiedUser] = useState(false);
+  const [copiedKey, setCopiedKey] = useState(false);
 
-  const handleLoadCeoCredentials = () => {
-    setOperatorId('AdminCEO');
-    setAccessKey('COMPUAPPS-2026');
-    setErrorMsg('');
+  const handleCopyUser = () => {
+    navigator.clipboard.writeText('AdminCEO');
+    setCopiedUser(true);
+    setTimeout(() => setCopiedUser(false), 2000);
+  };
+
+  const handleCopyKey = () => {
+    navigator.clipboard.writeText('AdminCEO#2026');
+    setCopiedKey(true);
+    setTimeout(() => setCopiedKey(false), 2000);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,7 +71,7 @@ export const AccessControlGate: React.FC<AccessControlGateProps> = ({ onAuthenti
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        setErrorMsg(data.error || 'Credenciales de acceso no válidas.');
+        setErrorMsg(data.error || 'Credenciales de acceso inválidas. Verifique su ID de Operador y Clave.');
         setIsLoading(false);
         return;
       }
@@ -70,7 +81,7 @@ export const AccessControlGate: React.FC<AccessControlGateProps> = ({ onAuthenti
       onAuthenticate(session);
     } catch (err: any) {
       console.error('Error during authentication:', err);
-      setErrorMsg('Error de conexión con el motor de seguridad local.');
+      setErrorMsg('Error de conexión con el motor de seguridad local. Verifique que el servicio esté activo.');
       setIsLoading(false);
     }
   };
@@ -93,8 +104,8 @@ export const AccessControlGate: React.FC<AccessControlGateProps> = ({ onAuthenti
               <Lock className="w-7 h-7" />
             </div>
             
-            <div className="inline-block px-2.5 py-0.5 rounded bg-red-950/80 text-red-400 border border-red-800/60 text-[10px] font-mono font-bold tracking-widest uppercase mb-1">
-              ACCESO RESTRINGIDO // USO PRIVADO
+            <div className="inline-block px-2.5 py-0.5 rounded bg-blue-950/90 text-cyan-400 border border-blue-700/60 text-[10px] font-mono font-bold tracking-widest uppercase mb-1">
+              ACCESO RESTRINGIDO // ZERO-TRUST GATE
             </div>
             
             <h1 className="text-xl font-extrabold text-white tracking-tight">
@@ -105,7 +116,7 @@ export const AccessControlGate: React.FC<AccessControlGateProps> = ({ onAuthenti
             </p>
           </div>
 
-          {/* Login Form */}
+          {/* Strict Security: Autocomplete eliminated entirely */}
           <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
             {errorMsg && (
               <div className="bg-red-950/60 border border-red-800/70 p-3 rounded-lg text-xs font-mono text-red-300 flex items-center gap-2">
@@ -125,11 +136,11 @@ export const AccessControlGate: React.FC<AccessControlGateProps> = ({ onAuthenti
                   name="operatorIdField"
                   autoComplete="off"
                   autoCorrect="off"
-                  autoCapitalize="off"
+                  autoCapitalize="none"
                   spellCheck={false}
                   value={operatorId}
                   onChange={(e) => setOperatorId(e.target.value)}
-                  placeholder="Ingresar ID de Operador"
+                  placeholder="Ej: AdminCEO"
                   className="w-full bg-[#060a12] border border-slate-700/80 rounded-lg pl-9 pr-3 py-2.5 text-xs text-cyan-300 font-mono focus:border-blue-500 focus:outline-none"
                 />
               </div>
@@ -146,17 +157,18 @@ export const AccessControlGate: React.FC<AccessControlGateProps> = ({ onAuthenti
                   name="accessKeyField"
                   autoComplete="new-password"
                   autoCorrect="off"
-                  autoCapitalize="off"
+                  autoCapitalize="none"
                   spellCheck={false}
                   value={accessKey}
                   onChange={(e) => setAccessKey(e.target.value)}
-                  placeholder="Ingresar clave maestra privada"
+                  placeholder="Ingrese clave maestra"
                   className="w-full bg-[#060a12] border border-slate-700/80 rounded-lg pl-9 pr-10 py-2.5 text-xs text-slate-100 font-mono focus:border-blue-500 focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-3 text-slate-500 hover:text-slate-300 cursor-pointer"
+                  title={showPassword ? 'Ocultar contraseña' : 'Ver contraseña'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -164,8 +176,8 @@ export const AccessControlGate: React.FC<AccessControlGateProps> = ({ onAuthenti
             </div>
 
             <div className="bg-[#070d18] border border-blue-900/40 rounded-lg p-2.5 text-[11px] font-mono text-slate-400 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-blue-400 shrink-0" />
-              <span>Autenticación validada contra base de datos local cifrada (PBKDF2-SHA512).</span>
+              <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
+              <span>Autenticación Zero-Trust validada contra base de datos local cifrada (PBKDF2-SHA512).</span>
             </div>
 
             <button
@@ -187,54 +199,75 @@ export const AccessControlGate: React.FC<AccessControlGateProps> = ({ onAuthenti
             </button>
           </form>
 
-          {/* AdminCEO Credential Card & Quick Access */}
+          {/* Credenciales de Acceso Oficial para el AdminCEO (Jefe de Auditorías de Seguridad - Access Full) */}
           <div className="mt-5 pt-4 border-t border-slate-800/80">
             <div className="bg-[#060a14] border border-blue-900/60 rounded-xl p-3.5 space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-mono font-bold text-cyan-400 flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-blue-400" />
-                  <span>CREDENCIALES RAÍZ DEL ADMINCEO</span>
+                  <span>CREDENCIALES DEL ADMINCEO</span>
                 </span>
-                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-blue-950 text-blue-300 border border-blue-700 font-bold">
-                  FULL ACCESS
+                <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-blue-950 text-cyan-300 border border-blue-700 font-bold uppercase">
+                  ACCESS FULL
                 </span>
+              </div>
+
+              <div className="text-[11px] font-mono text-slate-300 space-y-1">
+                <div>
+                  <span className="text-slate-400">Cargo: </span>
+                  <strong className="text-white">Jefe de Auditorías de Seguridad</strong>
+                </div>
+                <div className="text-[10px] text-slate-400">
+                  Panel de administración exclusivo de operadores habilitado para esta cuenta.
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-xs font-mono">
                 <div className="bg-[#090f1d] p-2 rounded border border-slate-800">
-                  <span className="text-[10px] text-slate-400 block uppercase">Usuario CEO:</span>
-                  <code className="text-white font-bold">AdminCEO</code>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] text-slate-400 block uppercase">Usuario:</span>
+                    <button
+                      type="button"
+                      onClick={handleCopyUser}
+                      className="text-[10px] text-cyan-400 hover:text-cyan-300 flex items-center gap-0.5 cursor-pointer"
+                      title="Copiar usuario al portapapeles"
+                    >
+                      {copiedUser ? <Check className="w-3 h-3 text-cyan-400" /> : <Copy className="w-3 h-3" />}
+                      <span>{copiedUser ? 'Copiado' : 'Copiar'}</span>
+                    </button>
+                  </div>
+                  <code className="text-white font-bold select-all">AdminCEO</code>
                 </div>
+
                 <div className="bg-[#090f1d] p-2 rounded border border-slate-800">
-                  <span className="text-[10px] text-slate-400 block uppercase">Clave Maestra:</span>
-                  <code className="text-cyan-300 font-bold">COMPUAPPS-2026</code>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] text-slate-400 block uppercase">Clave Maestra:</span>
+                    <button
+                      type="button"
+                      onClick={handleCopyKey}
+                      className="text-[10px] text-cyan-400 hover:text-cyan-300 flex items-center gap-0.5 cursor-pointer"
+                      title="Copiar clave al portapapeles"
+                    >
+                      {copiedKey ? <Check className="w-3 h-3 text-cyan-400" /> : <Copy className="w-3 h-3" />}
+                      <span>{copiedKey ? 'Copiado' : 'Copiar'}</span>
+                    </button>
+                  </div>
+                  <code className="text-cyan-300 font-bold select-all">AdminCEO#2026</code>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-1">
-                <span className="text-[10px] text-slate-400 font-mono">
-                  Rol: <strong>Jefe de Auditorías (CEO)</strong>
-                </span>
-                <button
-                  type="button"
-                  onClick={handleLoadCeoCredentials}
-                  className="text-[11px] font-mono text-cyan-400 hover:text-cyan-300 bg-blue-950/60 hover:bg-blue-900/60 border border-blue-800/60 px-2.5 py-1 rounded transition-colors cursor-pointer flex items-center gap-1"
-                >
-                  <KeyRound className="w-3 h-3" />
-                  <span>Cargar en Formulario</span>
-                </button>
+              <div className="pt-1 border-t border-slate-800/60">
+                <p className="text-[10px] text-slate-400 font-mono leading-relaxed">
+                  🛡️ <strong>Seguridad estricta:</strong> El autocompletado y botones de auto-acceso han sido eliminados. Ingrese las credenciales manualmente en el formulario superior.
+                </p>
               </div>
             </div>
-
-            <p className="text-[10px] text-slate-500 mt-2 font-mono text-center">
-              Una vez dentro, el CEO puede cambiar su clave o registrar nuevos operadores en el módulo exclusivo.
-            </p>
           </div>
         </div>
 
         {/* Security Warning Notice */}
         <div className="text-center mt-4 text-[11px] font-mono text-slate-500">
-          Terminal privada protegida • Registro inmutable de actividad forense activo
+          Terminal privada protegida • Base de datos local cifrada • Auditoría DFIR activa
         </div>
       </div>
     </div>

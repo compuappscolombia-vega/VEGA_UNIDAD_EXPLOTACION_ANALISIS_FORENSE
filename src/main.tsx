@@ -5,28 +5,33 @@ import './index.css';
 
 // Guard against third-party browser extension injection errors (e.g., MetaMask, wallet extensions)
 if (typeof window !== 'undefined') {
+  const isExtensionNoise = (val: unknown): boolean => {
+    const text = typeof val === 'string' ? val : (val as any)?.stack || (val as any)?.message || String(val || '');
+    return text.includes('chrome-extension://') ||
+           text.includes('moz-extension://') ||
+           text.includes('MetaMask') ||
+           text.includes('Failed to connect to MetaMask') ||
+           text.includes('ethereum') ||
+           text.includes('inpage.js');
+  };
+
   window.addEventListener('error', (event) => {
     if (
       event.filename?.includes('chrome-extension://') ||
-      event.message?.includes('MetaMask') ||
-      event.message?.includes('ethereum')
+      isExtensionNoise(event.message) ||
+      isExtensionNoise(event.error)
     ) {
       event.preventDefault();
       event.stopImmediatePropagation();
     }
-  });
+  }, true);
 
   window.addEventListener('unhandledrejection', (event) => {
-    const reason = event.reason?.message || String(event.reason || '');
-    if (
-      reason.includes('MetaMask') ||
-      reason.includes('ethereum') ||
-      event.reason?.stack?.includes('chrome-extension://')
-    ) {
+    if (isExtensionNoise(event.reason)) {
       event.preventDefault();
       event.stopImmediatePropagation();
     }
-  });
+  }, true);
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
