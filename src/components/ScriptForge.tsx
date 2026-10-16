@@ -268,6 +268,7 @@ if __name__ == "__main__":
               onChange={(e) => setToolType(e.target.value)}
               className="w-full bg-[#060a12] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono focus:border-blue-500 focus:outline-none"
             >
+              <option value="Escáner de Red y Superficie de Ataque Nmap (Python)">Escáner de Red Nmap (Python) [VEGA Bitácora]</option>
               <option value="Reverse Shell Interactivo">Reverse Shell Interactivo</option>
               <option value="Scanner de Puertos Multihilo">Scanner de Puertos Multihilo</option>
               <option value="Auditor de Fuerza Bruta / Password Sprayer">Password Sprayer con Rate-Limiting</option>

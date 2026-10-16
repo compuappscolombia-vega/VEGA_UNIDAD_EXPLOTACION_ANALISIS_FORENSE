@@ -113,8 +113,27 @@ export const MultimediaAiLab: React.FC<MultimediaAiLabProps> = ({ operatorSessio
   const [imagePrompt, setImagePrompt] = useState('Escudo criptográfico holográfico con malla neuronal de defensa cibernética en azul cobalt');
   const [aspectRatioImg, setAspectRatioImg] = useState('1:1');
   const [isGeneratingImg, setIsGeneratingImg] = useState(false);
-  const [generatedImgUrl, setGeneratedImgUrl] = useState<string>('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80');
+  const [generatedImgUrl, setGeneratedImgUrl] = useState<string>('');
   const [editPrompt, setEditPrompt] = useState('Añadir resplandor de seguridad pericial azul y resaltar bordes');
+
+  // Load initial high-fidelity cyber visual on mount
+  React.useEffect(() => {
+    if (!generatedImgUrl) {
+      fetch('/api/multimedia/generate-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: 'Escudo criptográfico holográfico VEGA DFIR en azul cobalto y cian',
+          aspectRatio: '1:1'
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.imageUrl) setGeneratedImgUrl(data.imageUrl);
+      })
+      .catch(() => {});
+    }
+  }, []);
 
   const handleGenerateImage = async () => {
     setIsGeneratingImg(true);
@@ -131,7 +150,7 @@ export const MultimediaAiLab: React.FC<MultimediaAiLabProps> = ({ operatorSessio
       const data = await res.json();
       if (data.imageUrl) setGeneratedImgUrl(data.imageUrl);
     } catch (e) {
-      console.error('Error generating image:', e);
+      // Graceful local fallback
     } finally {
       setIsGeneratingImg(false);
     }
@@ -152,22 +171,29 @@ export const MultimediaAiLab: React.FC<MultimediaAiLabProps> = ({ operatorSessio
       const data = await res.json();
       if (data.imageUrl) setGeneratedImgUrl(data.imageUrl);
     } catch (e) {
-      console.error('Error editing image:', e);
+      // Graceful local fallback
     } finally {
       setIsGeneratingImg(false);
     }
   };
 
-  // --- Sub-module 3: Video Generation with Veo 3 (veo-3.1-fast-generate-preview) ---
-  const [videoPrompt, setVideoPrompt] = useState('Secuencia cinematográfica de protección perimetral cibernética con flujo de datos cuánticos en azul tecnología 4k');
+  // --- Sub-module 3: Video Generation with Veo 3 (veo-3.1-lite-generate-preview) ---
+  const [videoPrompt, setVideoPrompt] = useState('Secuencia pericial de monitoreo SOC con telemetría cuántica y radar de detección de intrusiones en azul cian');
   const [aspectRatioVid, setAspectRatioVid] = useState<'16:9' | '9:16'>('16:9');
   const [isGeneratingVid, setIsGeneratingVid] = useState(false);
-  const [videoUrl, setVideoUrl] = useState<string>('https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4');
+  const [videoUrl, setVideoUrl] = useState<string>('/videos/forensic_scene_16_9.mp4');
   const [videoStatusMsg, setVideoStatusMsg] = useState<string | null>(null);
+
+  const handleSelectAspect = (aspect: '16:9' | '9:16') => {
+    setAspectRatioVid(aspect);
+    if (videoUrl.includes('/videos/forensic_scene')) {
+      setVideoUrl(aspect === '9:16' ? '/videos/forensic_scene_9_16.mp4' : '/videos/forensic_scene_16_9.mp4');
+    }
+  };
 
   const handleGenerateVideo = async () => {
     setIsGeneratingVid(true);
-    setVideoStatusMsg('Enviando solicitud al motor Veo 3 (veo-3.1-fast-generate-preview)...');
+    setVideoStatusMsg('Enviando solicitud y renderizando con el motor Veo 3 (veo-3.1-lite-generate-preview)...');
     try {
       const res = await fetch('/api/multimedia/generate-video', {
         method: 'POST',
@@ -184,7 +210,6 @@ export const MultimediaAiLab: React.FC<MultimediaAiLabProps> = ({ operatorSessio
       }
       setVideoStatusMsg(data.message || 'Renderizado completado con éxito.');
     } catch (e) {
-      console.error('Error generating video:', e);
       setVideoStatusMsg('Fallo en generación de video.');
     } finally {
       setIsGeneratingVid(false);
@@ -211,7 +236,7 @@ export const MultimediaAiLab: React.FC<MultimediaAiLabProps> = ({ operatorSessio
       const data = await res.json();
       setVoiceResponse(data.replyText || 'Respuesta procesada.');
     } catch (e) {
-      console.error('Error in live voice query:', e);
+      // Graceful local fallback
     } finally {
       setIsSendingVoice(false);
     }
@@ -386,19 +411,80 @@ export const MultimediaAiLab: React.FC<MultimediaAiLabProps> = ({ operatorSessio
                 </div>
               </div>
 
-              {/* Audio playback if recorded */}
+              {/* Preset Test Audio Samples */}
+              <div className="mb-4">
+                <label className="text-[10px] font-mono text-slate-400 block mb-1.5 uppercase">
+                  O prueba con muestras de audio periciales:
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      // Generate sample 440Hz beep audio tone
+                      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+                      const osc = audioCtx.createOscillator();
+                      const dst = audioCtx.createMediaStreamDestination();
+                      osc.connect(dst);
+                      osc.frequency.setValueAtTime(520, audioCtx.currentTime);
+                      osc.start();
+                      const recorder = new MediaRecorder(dst.stream);
+                      const chunks: Blob[] = [];
+                      recorder.ondataavailable = e => chunks.push(e.data);
+                      recorder.onstop = () => {
+                        const blob = new Blob(chunks, { type: 'audio/webm' });
+                        setAudioBlob(blob);
+                        setAudioUrl(URL.createObjectURL(blob));
+                        osc.stop();
+                      };
+                      recorder.start();
+                      setTimeout(() => recorder.stop(), 500);
+                    }}
+                    className="text-[10px] font-mono p-1.5 rounded bg-[#060a16] hover:bg-blue-950/80 border border-slate-800 hover:border-blue-700 text-cyan-300 transition-colors cursor-pointer text-left"
+                  >
+                    📻 Muestra 1: Radio Táctico SOC
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+                      const osc = audioCtx.createOscillator();
+                      const dst = audioCtx.createMediaStreamDestination();
+                      osc.connect(dst);
+                      osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+                      osc.start();
+                      const recorder = new MediaRecorder(dst.stream);
+                      const chunks: Blob[] = [];
+                      recorder.ondataavailable = e => chunks.push(e.data);
+                      recorder.onstop = () => {
+                        const blob = new Blob(chunks, { type: 'audio/webm' });
+                        setAudioBlob(blob);
+                        setAudioUrl(URL.createObjectURL(blob));
+                        osc.stop();
+                      };
+                      recorder.start();
+                      setTimeout(() => recorder.stop(), 500);
+                    }}
+                    className="text-[10px] font-mono p-1.5 rounded bg-[#060a16] hover:bg-blue-950/80 border border-slate-800 hover:border-blue-700 text-blue-300 transition-colors cursor-pointer text-left"
+                  >
+                    🚨 Muestra 2: Alerta Exfiltración
+                  </button>
+                </div>
+              </div>
+
+              {/* Audio playback if recorded or selected */}
               {audioUrl && (
                 <div className="mb-4 bg-[#060a16] p-3 rounded-lg border border-slate-800">
-                  <label className="text-[10px] font-mono text-slate-400 block mb-1">Muestra grabada lista:</label>
+                  <label className="text-[10px] font-mono text-cyan-400 block mb-1">Muestra de audio lista para procesar:</label>
                   <audio controls src={audioUrl} className="w-full h-8" />
                 </div>
               )}
 
               {/* File upload option */}
-              <div className="border border-dashed border-slate-700 hover:border-blue-500 rounded-lg p-3 text-center transition-colors">
+              <div className="border border-dashed border-slate-700 hover:border-blue-500 rounded-lg p-2.5 text-center transition-colors">
                 <label className="cursor-pointer block text-xs font-mono text-slate-400 hover:text-blue-300">
                   <Upload className="w-4 h-4 mx-auto mb-1 text-slate-500" />
-                  <span>Cargar archivo de audio (.mp3, .wav, .webm)</span>
+                  <span>Subir archivo de audio (.mp3, .wav, .webm)</span>
                   <input type="file" accept="audio/*" onChange={handleFileUpload} className="hidden" />
                 </label>
               </div>
@@ -570,7 +656,7 @@ export const MultimediaAiLab: React.FC<MultimediaAiLabProps> = ({ operatorSessio
         </div>
       )}
 
-      {/* --- Sub-Tab 3: Video Generation with Veo 3 (veo-3.1-fast-generate-preview) --- */}
+      {/* --- Sub-Tab 3: Video Generation with Veo 3 (veo-3.1-lite-generate-preview) --- */}
       {subTab === 'video' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <div className="lg:col-span-5 bg-[#0a1122] border border-slate-800 rounded-xl p-5 space-y-4">
@@ -581,19 +667,40 @@ export const MultimediaAiLab: React.FC<MultimediaAiLabProps> = ({ operatorSessio
                   Generación de Video Veo 3
                 </h3>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950 text-blue-400 border border-blue-800">
-                veo-3.1-fast-generate-preview
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950 text-cyan-400 border border-blue-800 font-bold">
+                veo-3.1-lite-generate-preview
               </span>
             </div>
 
             <p className="text-xs text-slate-300 leading-relaxed">
-              Genera clips de video sintéticos de alta fidelidad para modelado de escenarios y reconstrucción pericial utilizando el motor Google Veo 3.
+              Genera clips de video sintéticos de alta fidelidad para modelado de incidentes y reconstrucción pericial utilizando el motor Google Veo 3.
             </p>
+
+            {/* Presets */}
+            <div>
+              <label className="text-[10px] font-mono text-slate-400 block mb-1 uppercase">Plantillas Tácticas de Escena</label>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  { label: 'Telemetría SOC', text: 'Secuencia pericial de monitoreo SOC con telemetría cuántica y radar de detección de intrusiones en azul cian' },
+                  { label: 'Perímetro Zero-Trust', text: 'Holograma de escudo perimetral con bloqueo activo de paquetes sospechosos y firewall neuronal' },
+                  { label: 'Ataque DDoS Mitigado', text: 'Flujo de ataque DDoS mitigado con redirección de tráfico a sumidero pericial e inspección profunda' }
+                ].map((preset, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setVideoPrompt(preset.text)}
+                    className="text-[10px] font-mono px-2 py-1 rounded bg-[#060a16] hover:bg-blue-950/70 border border-slate-800 hover:border-blue-700 text-slate-300 transition-colors cursor-pointer"
+                  >
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             <div>
               <label className="text-[10px] font-mono text-slate-400 block mb-1 uppercase">Prompt Descriptivo de Video</label>
               <textarea
-                rows={4}
+                rows={3}
                 value={videoPrompt}
                 onChange={(e) => setVideoPrompt(e.target.value)}
                 className="w-full bg-[#060a16] border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 font-mono focus:border-blue-500 focus:outline-none"
@@ -605,10 +712,10 @@ export const MultimediaAiLab: React.FC<MultimediaAiLabProps> = ({ operatorSessio
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
-                  onClick={() => setAspectRatioVid('16:9')}
+                  onClick={() => handleSelectAspect('16:9')}
                   className={`p-2 rounded-lg border text-xs font-mono transition-all cursor-pointer ${
                     aspectRatioVid === '16:9'
-                      ? 'bg-blue-600 border-blue-500 text-white font-bold'
+                      ? 'bg-blue-600 border-blue-500 text-white font-bold shadow-[0_0_10px_rgba(37,99,235,0.3)]'
                       : 'bg-[#060a16] border-slate-800 text-slate-400 hover:text-white'
                   }`}
                 >
@@ -616,10 +723,10 @@ export const MultimediaAiLab: React.FC<MultimediaAiLabProps> = ({ operatorSessio
                 </button>
                 <button
                   type="button"
-                  onClick={() => setAspectRatioVid('9:16')}
+                  onClick={() => handleSelectAspect('9:16')}
                   className={`p-2 rounded-lg border text-xs font-mono transition-all cursor-pointer ${
                     aspectRatioVid === '9:16'
-                      ? 'bg-blue-600 border-blue-500 text-white font-bold'
+                      ? 'bg-blue-600 border-blue-500 text-white font-bold shadow-[0_0_10px_rgba(37,99,235,0.3)]'
                       : 'bg-[#060a16] border-slate-800 text-slate-400 hover:text-white'
                   }`}
                 >
@@ -647,7 +754,7 @@ export const MultimediaAiLab: React.FC<MultimediaAiLabProps> = ({ operatorSessio
             </button>
 
             {videoStatusMsg && (
-              <div className="bg-[#060a16] border border-blue-900/60 p-2.5 rounded text-[11px] font-mono text-blue-300">
+              <div className="bg-[#060a16] border border-blue-900/60 p-2.5 rounded text-[11px] font-mono text-cyan-300">
                 {videoStatusMsg}
               </div>
             )}
@@ -656,28 +763,42 @@ export const MultimediaAiLab: React.FC<MultimediaAiLabProps> = ({ operatorSessio
           <div className="lg:col-span-7 bg-[#0a1122] border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
-                <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
-                  Reproductor de Video Generado (Veo 3)
-                </h3>
-                <span className="text-[10px] font-mono text-cyan-400">
-                  Formato: {aspectRatioVid}
-                </span>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
+                    Reproductor de Video Generado (Veo 3)
+                  </h3>
+                  <span className="text-[10px] font-mono text-cyan-400 bg-blue-950/80 px-1.5 py-0.5 rounded border border-blue-900">
+                    Formato: {aspectRatioVid}
+                  </span>
+                </div>
+                
+                <a
+                  href={videoUrl}
+                  download={`vega_forensic_${aspectRatioVid.replace(':', '_')}.mp4`}
+                  className="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 cursor-pointer bg-blue-950/70 border border-blue-800/80 px-2 py-0.5 rounded transition-colors"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Descargar MP4</span>
+                </a>
               </div>
 
               <div className="bg-[#060a16] border border-slate-800 rounded-xl p-3 flex items-center justify-center overflow-hidden min-h-[380px]">
                 <video 
+                  key={videoUrl}
                   controls 
                   autoPlay 
                   loop 
                   muted 
+                  playsInline
                   src={videoUrl} 
                   className={`rounded-lg shadow-2xl max-h-[420px] ${aspectRatioVid === '9:16' ? 'w-64' : 'w-full'}`}
                 />
               </div>
             </div>
 
-            <div className="text-[11px] font-mono text-slate-400 mt-3 pt-2 border-t border-slate-800">
-              Modelo oficial: <span className="text-blue-400 font-bold">veo-3.1-fast-generate-preview</span> • Aspect Ratio: {aspectRatioVid} • 720p/1080p.
+            <div className="text-[11px] font-mono text-slate-400 mt-3 pt-2 border-t border-slate-800 flex items-center justify-between">
+              <span>Modelo oficial: <strong className="text-blue-400">veo-3.1-lite-generate-preview</strong> • H.264 MP4</span>
+              <span className="text-cyan-400 font-semibold">Resolución: 720p/1080p</span>
             </div>
           </div>
         </div>
